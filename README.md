@@ -1,6 +1,6 @@
 # N E X U S
 
-G E N  Z  S O C I A L  N E T W O R K
+GEN Z SOCIAL NETWORK
 ## Getting Started
 
 This project is a starting point for a Flutter application.
