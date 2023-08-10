@@ -1,7 +1,6 @@
-# nexusremake
+# N E X U S
 
-A new Flutter project.
-
+G E N  Z  S O C I A L  N E T W O R K
 ## Getting Started
 
 This project is a starting point for a Flutter application.
