@@ -43,6 +43,7 @@ class _RegisterPageState extends State<RegisterPage> {
     Future addUsersDetails(String firstName, String lastName, String password,
         String email, int age) async {
       await FirebaseFirestore.instance.collection('users').add({
+        'admin': false,
         'username': emailTextController.text.split('@')[0], // initial username
         'bio': 'Empty bio...', // initial empty bio
         'first name': firstName,
@@ -120,7 +121,7 @@ class _RegisterPageState extends State<RegisterPage> {
   // ignore: annotate_overrides
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Theme.of(context).primaryColor,
       body: SafeArea(
         child: Center(
           child: Padding(
@@ -242,7 +243,9 @@ class _RegisterPageState extends State<RegisterPage> {
                     children: [
                       // google button
                       SquareTile(
-                        onTap: () => AuthService().signInWithGoogle(),
+                        onTap: () {
+                          displayMessage("C O M I N G  S O O N");
+                        },
                         imagePath: 'assets/images/google.png',
                       ),
                       const SizedBox(
@@ -250,7 +253,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       // apple button
                       SquareTile(
-                        onTap: () {},
+                        onTap: () {
+                          displayMessage("C O M I N G  S O O N");
+                        },
                         imagePath: 'assets/images/apple.png',
                       ),
                     ],

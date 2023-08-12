@@ -1,10 +1,16 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:html' as html;
+import 'dart:html';
+
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+// ignore: depend_on_referenced_packages
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:nexusremake/ad/IFrameElement.dart';
 import 'package:nexusremake/components/drawer.dart';
 import 'package:nexusremake/components/text_field.dart';
 import 'package:nexusremake/components/wall_post.dart';
@@ -25,6 +31,11 @@ class _HomePageState extends State<HomePage> {
 
   // text controller
   final textController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   //sign user out
   void signOut() {
@@ -87,7 +98,7 @@ class _HomePageState extends State<HomePage> {
           IconButton(
             onPressed: signOut,
             icon: Icon(Icons.logout),
-            color: Theme.of(context).colorScheme.primary,
+            color: Colors.white,
           )
         ],
       ),
@@ -168,7 +179,7 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.only(bottom: 25),
               child: Text("Logged in as : " + currentUser.email!),
-            )
+            ),
           ],
         ),
       ),
