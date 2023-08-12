@@ -47,10 +47,10 @@ class _HomePageState extends State<LiveChatPage> {
   Widget build(BuildContext context) {
     Firebase.initializeApp();
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         title: Text("L I V E  C H A T"),
-        backgroundColor: Colors.grey[900],
+        backgroundColor: Theme.of(context).colorScheme.background,
         elevation: 0,
       ),
       body: Center(

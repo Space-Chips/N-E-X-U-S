@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -86,12 +87,17 @@ class _HomePageState extends State<HomePage> {
           IconButton(
             onPressed: signOut,
             icon: Icon(Icons.logout),
+            color: Theme.of(context).colorScheme.primary,
           )
         ],
       ),
       drawer: MyDrawer(
         onProfileTap: goToProfilePage,
         onLiveChatTap: goToLiveChatPage,
+        onThemeTap: () {
+          AdaptiveTheme.of(context).toggleThemeMode();
+          // Wrap in a function
+        },
         onSignOut: signOut,
       ),
       body: Center(
@@ -104,7 +110,7 @@ class _HomePageState extends State<HomePage> {
                     .collection('Posts')
                     .orderBy(
                       "TimeStamp",
-                      descending: false,
+                      descending: true,
                     )
                     .snapshots(),
                 builder: (context, snapshot) {

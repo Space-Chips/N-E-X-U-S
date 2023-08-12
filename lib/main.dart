@@ -9,6 +9,7 @@ import 'package:nexusremake/theme/dark_theme.dart';
 import 'package:nexusremake/theme/light_theme.dart';
 import 'pages/login_page.dart';
 import 'firebase_options.dart';
+import 'package:adaptive_theme/adaptive_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,11 +26,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: lightTheme,
-      darkTheme: darkTheme,
-      home: const AuthPage(),
+    return AdaptiveTheme(
+      light: lightTheme,
+      dark: darkTheme,
+      initial: AdaptiveThemeMode.light,
+      builder: (theme, darkTheme) => MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: theme,
+        darkTheme: darkTheme,
+        home: const AuthPage(),
+      ),
     );
   }
 }

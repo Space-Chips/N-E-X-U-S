@@ -7,11 +7,13 @@ class MyDrawer extends StatelessWidget {
   final void Function()? onProfileTap;
   final void Function()? onLiveChatTap;
   final void Function()? onSignOut;
+  final void Function()? onThemeTap;
   const MyDrawer({
     super.key,
     required this.onProfileTap,
     required this.onLiveChatTap,
     required this.onSignOut,
+    required this.onThemeTap,
   });
 
   @override
@@ -43,6 +45,11 @@ class MyDrawer extends StatelessWidget {
                   icon: Icons.person,
                   text: 'P R O F I L E',
                   onTap: onProfileTap,
+                ),
+                MyListTile(
+                  icon: Icons.bedtime,
+                  text: 'T H E M E',
+                  onTap: onThemeTap,
                 ),
                 MyListTile(
                   icon: Icons.chat,

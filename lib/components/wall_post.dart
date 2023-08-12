@@ -164,7 +164,6 @@ class _WallPostState extends State<WallPost> {
                     .collection("Posts")
                     .doc(widget.postId)
                     .delete()
-                    .then((value) => print("P O S T  D E L E T E D"))
                     .catchError(
                         (error) => print("Failed to delete post: $error"));
 
