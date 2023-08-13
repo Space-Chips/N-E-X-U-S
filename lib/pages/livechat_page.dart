@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, depend_on_referenced_packages
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -119,7 +119,7 @@ class _HomePageState extends State<LiveChatPage> {
             // loged in as
             Padding(
               padding: const EdgeInsets.only(bottom: 25),
-              child: Text("Logged in as:" + currentUser.email!),
+              child: Text("Logged in as:${currentUser.email!}"),
             )
           ],
         ),

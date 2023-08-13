@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_const, prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_import
+// ignore_for_file: unnecessary_const, prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_import, depend_on_referenced_packages
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -62,8 +62,16 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
 
-    if (passwordConfirmed()) {
-      // create user
+    if (passwordTextController.text != confirmpasswordTextController.text) {
+      // pop loading circle
+      Navigator.pop(context);
+      // show error to the user
+      displayMessage("Passwords don't match");
+      return;
+    }
+
+    try {
+      // Add user Details
       addUsersDetails(
         firstnameTextController.text.trim(),
         lastnameTextController.text.trim(),
@@ -73,29 +81,16 @@ class _RegisterPageState extends State<RegisterPage> {
           ageTextController.text.trim(),
         ),
       );
+      // create user
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailTextController.text.trim(),
         password: passwordTextController.text.trim(),
       );
-
-      if (passwordConfirmed()) {
-        try {
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-              email: emailTextController.text.trim(),
-              password: passwordTextController.text.trim());
-        } on FirebaseAuthException catch (e) {
-          //pop loading circle
-          Navigator.pop(context);
-          // show error to user
-          displayMessage(e.code);
-        }
-      } else {
-        // pop loading circle
-        Navigator.pop(context);
-        // show error to user
-        displayMessage("Passwords don't match!");
-        return;
-      }
+    } on FirebaseAuthException catch (e) {
+      //pop loading circle
+      Navigator.pop(context);
+      // show error to user
+      displayMessage(e.code);
     }
   }
 

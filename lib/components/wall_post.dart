@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -33,6 +33,8 @@ class _WallPostState extends State<WallPost> {
   // user
   final currentUser = FirebaseAuth.instance.currentUser!;
   bool isLiked = false;
+  bool isAdminState = false;
+  String usernameState = "Test";
 
   // comment text controller
   final commentTextController = TextEditingController();
@@ -42,6 +44,29 @@ class _WallPostState extends State<WallPost> {
   void initState() {
     super.initState();
     isLiked = widget.likes.contains(currentUser.email);
+    _fetchUserData();
+  }
+
+  // Fetch user data from Firebase
+  void _fetchUserData() async {
+    DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+        .collection('user')
+        .doc(widget.user) // Assuming 'user' field is the user's email
+        .get();
+
+    if (userSnapshot.exists) {
+      Map<String, dynamic> userData =
+          userSnapshot.data() as Map<String, dynamic>;
+      bool isAdmin = userData['isAdmin'] ?? false;
+      String username = userData['username'] ??
+          'Unknown'; // Replace 'username' with the actual field name
+
+      setState(() {
+        // Update isAdmin and username in the state
+        isAdminState = isAdmin;
+        usernameState = username;
+      });
+    }
   }
 
   // toggle like
@@ -163,9 +188,7 @@ class _WallPostState extends State<WallPost> {
                 FirebaseFirestore.instance
                     .collection("Posts")
                     .doc(widget.postId)
-                    .delete()
-                    .catchError(
-                        (error) => print("Failed to delete post: $error"));
+                    .delete();
 
                 // dismiss the dialog
                 Navigator.pop(context);
@@ -188,6 +211,8 @@ class _WallPostState extends State<WallPost> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text(widget.message),
+
           // wallpost
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -198,7 +223,6 @@ class _WallPostState extends State<WallPost> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // message
-                  Text(widget.message),
 
                   const SizedBox(height: 5),
 
@@ -206,7 +230,7 @@ class _WallPostState extends State<WallPost> {
                   Row(
                     children: [
                       Text(
-                        widget.user,
+                        usernameState,
                         style: TextStyle(color: Colors.grey[400]),
                       ),
                       Text(
@@ -221,10 +245,6 @@ class _WallPostState extends State<WallPost> {
                   ),
                 ],
               ),
-
-              // delete button
-              if (widget.user == currentUser.email)
-                DeleteButton(onTap: deletePost)
             ],
           ),
           const SizedBox(height: 20),
@@ -267,6 +287,12 @@ class _WallPostState extends State<WallPost> {
                   // Like Count
                 ],
               ),
+              const SizedBox(width: 50),
+              // delete button
+              if (isAdminState == true)
+                DeleteButton(onTap: deletePost)
+              else if (widget.user == currentUser.email)
+                DeleteButton(onTap: deletePost)
             ],
           ),
 
