@@ -3,7 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 String formatDate(Timestamp timestamp) {
-  // timestamp is the object we retrive from firebase
+  // timestamp is the object we retrieve from firebase
   // so to display it, let convert it to a String
   DateTime dateTime = timestamp.toDate();
 
@@ -16,7 +16,7 @@ String formatDate(Timestamp timestamp) {
   // get day
   String day = dateTime.day.toString();
 
-  //final formated date
+  //final formatted date
   String formattedDate = '$day/$month/$year';
 
   return formattedDate;
