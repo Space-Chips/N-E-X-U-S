@@ -50,7 +50,6 @@ class _HomePageState extends State<LiveChatPage> {
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         title: Text("L I V E  C H A T"),
-        backgroundColor: Colors.grey[900],
         elevation: 0,
       ),
       body: Center(
