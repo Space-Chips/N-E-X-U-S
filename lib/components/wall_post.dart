@@ -230,7 +230,7 @@ class _WallPostState extends State<WallPost> {
                   Row(
                     children: [
                       Text(
-                        usernameState,
+                        widget.user,
                         style: TextStyle(color: Colors.grey[400]),
                       ),
                       Text(
