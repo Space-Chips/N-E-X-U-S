@@ -4,9 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:nexusremake/components/chat_post.dart';
-import 'package:nexusremake/components/text_field.dart';
-import 'package:nexusremake/helper/helper_methods.dart';
+import 'package:nexus/components/chat_post.dart';
+import 'package:nexus/components/text_field.dart';
+import 'package:nexus/helper/helper_methods.dart';
 
 class LiveChatPage extends StatefulWidget {
   const LiveChatPage({super.key});

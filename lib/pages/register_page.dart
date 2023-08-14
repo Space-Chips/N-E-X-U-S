@@ -5,8 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:nexusremake/components/button.dart';
-import 'package:nexusremake/components/text_field.dart';
+import 'package:nexus/components/button.dart';
+import 'package:nexus/components/text_field.dart';
 
 import '../components/square_tile.dart';
 import '../services/auth_service.dart';

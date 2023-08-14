@@ -2,8 +2,8 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:nexusremake/pages/home_page.dart';
-import 'package:nexusremake/auth/login_or_register.dart';
+import 'package:nexus/pages/home_page.dart';
+import 'package:nexus/auth/login_or_register.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});

@@ -3,10 +3,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:nexusremake/components/comment.dart';
-import 'package:nexusremake/components/comment_button.dart';
-import 'package:nexusremake/components/delet_button.dart';
-import 'package:nexusremake/helper/helper_methods.dart';
+import 'package:nexus/components/comment.dart';
+import 'package:nexus/components/comment_button.dart';
+import 'package:nexus/components/delet_button.dart';
+import 'package:nexus/helper/helper_methods.dart';
 
 import 'like_button.dart';
 
@@ -287,7 +287,7 @@ class _WallPostState extends State<WallPost> {
                   // Like Count
                 ],
               ),
-              const SizedBox(width: 50),
+              const SizedBox(width: 20),
               // delete button
               if (isAdminState == true)
                 DeleteButton(onTap: deletePost)
