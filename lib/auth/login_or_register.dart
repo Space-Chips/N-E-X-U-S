@@ -2,8 +2,8 @@
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:nexusremake/pages/register_page.dart';
-import 'package:nexusremake/pages/login_page.dart';
+import 'package:nexus/pages/register_page.dart';
+import 'package:nexus/pages/login_page.dart';
 
 class LoginOrRegister extends StatefulWidget {
   const LoginOrRegister({super.key});
@@ -16,7 +16,7 @@ class _LoginOrRegisterState extends State<LoginOrRegister> {
   // initially, show the login page
   bool showLoginPage = true;
 
-  // toogle between login and register page
+  // toggle between login and register page
   void togglePages() {
     setState(() {
       showLoginPage = !showLoginPage;
