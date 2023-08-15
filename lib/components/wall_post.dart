@@ -203,7 +203,6 @@ class _WallPostState extends State<WallPost> {
 
   @override
   Widget build(BuildContext context) {
-    fetchUserData();
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.primary,
