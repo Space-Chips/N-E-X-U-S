@@ -44,28 +44,30 @@ class _WallPostState extends State<WallPost> {
   void initState() {
     super.initState();
     isLiked = widget.likes.contains(currentUser.email);
-    _fetchUserData();
+    fetchUserData();
   }
 
   // Fetch user data from Firebase
-  void _fetchUserData() async {
-    DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
-        .collection('user')
-        .doc(widget.user) // Assuming 'user' field is the user's email
+  void fetchUserData() async {
+    QuerySnapshot userSnapshot = await FirebaseFirestore.instance
+        .collection("users")
+        .where("email",
+            isEqualTo: currentUser.email) // Use the current user's email
         .get();
 
-    if (userSnapshot.exists) {
-      Map<String, dynamic> userData =
-          userSnapshot.data() as Map<String, dynamic>;
-      bool isAdmin = userData['isAdmin'] ?? false;
-      String username = userData['username'] ??
-          'Unknown'; // Replace 'username' with the actual field name
+    if (userSnapshot.docs.isNotEmpty) {
+      // Check if any documents match the query
+      var userData = userSnapshot.docs.first.data() as Map<String, dynamic>;
+      var username = userData['username'];
+      var isAdmin = userData['admin'];
 
       setState(() {
         // Update isAdmin and username in the state
-        isAdminState = isAdmin;
         usernameState = username;
+        isAdminState = isAdmin;
       });
+    } else {
+      //print("User data not found");
     }
   }
 
@@ -101,7 +103,7 @@ class _WallPostState extends State<WallPost> {
         .collection("Comments")
         .add({
       "CommentText": commentText,
-      "CommentedBy": currentUser.email,
+      "CommentedBy": usernameState,
       "CommentTime": Timestamp.now() // remember to format this when displaying
     });
   }
@@ -201,6 +203,7 @@ class _WallPostState extends State<WallPost> {
 
   @override
   Widget build(BuildContext context) {
+    fetchUserData();
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.primary,
@@ -331,7 +334,7 @@ class _WallPostState extends State<WallPost> {
                 }).toList(),
               );
             },
-          )
+          ),
         ],
       ),
     );

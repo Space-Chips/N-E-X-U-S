@@ -27,14 +27,42 @@ class _HomePageState extends State<HomePage> {
   // text controller
   final textController = TextEditingController();
 
+  bool isAdminState = false;
+  String usernameState = "Test";
+
   @override
   void initState() {
     super.initState();
+    fetchUserData();
   }
 
   //sign user out
   void signOut() {
     FirebaseAuth.instance.signOut();
+  }
+
+  // Fetch user data from Firebase
+  void fetchUserData() async {
+    QuerySnapshot userSnapshot = await FirebaseFirestore.instance
+        .collection("users")
+        .where("email",
+            isEqualTo: currentUser.email) // Use the current user's email
+        .get();
+
+    if (userSnapshot.docs.isNotEmpty) {
+      // Check if any documents match the query
+      var userData = userSnapshot.docs.first.data() as Map<String, dynamic>;
+      var username = userData['username'];
+      var isAdmin = userData['admin'];
+
+      setState(() {
+        // Update isAdmin and username in the state
+        usernameState = username;
+        isAdminState = isAdmin;
+      });
+    } else {
+      //print("User data not found");
+    }
   }
 
   // post message
@@ -43,7 +71,7 @@ class _HomePageState extends State<HomePage> {
     if (textController.text.isNotEmpty) {
       // store in firebase
       FirebaseFirestore.instance.collection("Posts").add({
-        'UserEmail': currentUser.email,
+        'UserEmail': usernameState,
         'Message': textController.text,
         'TimeStamp': Timestamp.now(),
         'Likes': [],
