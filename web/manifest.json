@@ -1,11 +1,11 @@
 {
-    "name": "nexusremake",
-    "short_name": "nexusremake",
+    "name": "NEXUS",
+    "short_name": "NEXUS",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "The gen Z social network",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
       dark: darkTheme,
       initial: AdaptiveThemeMode.dark,
       builder: (theme, darkTheme) => MaterialApp(
+        title: "NEXUS",
         home: AnimatedSplashScreen(
           duration: 3000,
           backgroundColor: Colors.white,

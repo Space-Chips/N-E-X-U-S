@@ -36,7 +36,8 @@ class _WallPostState extends State<WallPost> {
   final currentUser = FirebaseAuth.instance.currentUser!;
   bool isLiked = false;
   bool isAdminState = false;
-  String usernameState = "Test";
+  String usernameState = "usernameState";
+  String userEmail = "userEmail";
 
   // comment text controller
   final commentTextController = TextEditingController();
@@ -62,11 +63,13 @@ class _WallPostState extends State<WallPost> {
       var userData = userSnapshot.docs.first.data() as Map<String, dynamic>;
       var username = userData['username'];
       var isAdmin = userData['admin'];
+      var email = userData['email'];
 
       setState(() {
         // Update isAdmin and username in the state
         usernameState = username;
         isAdminState = isAdmin;
+        userEmail = email;
       });
     } else {
       //print("User data not found");
@@ -106,7 +109,8 @@ class _WallPostState extends State<WallPost> {
         .add({
       "CommentText": commentText,
       "CommentedBy": usernameState,
-      "CommentTime": Timestamp.now() // remember to format this when displaying
+      "CommentTime": Timestamp.now(), // remember to format this when displaying
+      "CommentedByEmail": userEmail,
     });
   }
 
@@ -335,6 +339,7 @@ class _WallPostState extends State<WallPost> {
                   return Comment(
                     text: commentData["CommentText"],
                     user: commentData["CommentedBy"],
+                    userEmail: commentData["CommentedByEmail"],
                     time: formatDate(commentData["CommentTime"]),
                   );
                 }).toList(),
