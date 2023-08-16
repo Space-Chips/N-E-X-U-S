@@ -29,6 +29,7 @@ class _HomePageState extends State<HomePage> {
 
   bool isAdminState = false;
   String usernameState = "Test";
+  String emailState = "Test";
 
   @override
   void initState() {
@@ -54,11 +55,13 @@ class _HomePageState extends State<HomePage> {
       var userData = userSnapshot.docs.first.data() as Map<String, dynamic>;
       var username = userData['username'];
       var isAdmin = userData['admin'];
+      var email = userData['email'];
 
       setState(() {
         // Update isAdmin and username in the state
         usernameState = username;
         isAdminState = isAdmin;
+        emailState = email;
       });
     } else {
       //print("User data not found");
@@ -71,7 +74,8 @@ class _HomePageState extends State<HomePage> {
     if (textController.text.isNotEmpty) {
       // store in firebase
       FirebaseFirestore.instance.collection("Posts").add({
-        'UserEmail': usernameState,
+        'UserEmail': emailState,
+        'User': usernameState,
         'Message': textController.text,
         'TimeStamp': Timestamp.now(),
         'Likes': [],
@@ -156,7 +160,8 @@ class _HomePageState extends State<HomePage> {
                         final post = snapshot.data!.docs[index];
                         return WallPost(
                           message: post['Message'],
-                          user: post['UserEmail'],
+                          user: post['User'],
+                          userEmail: post['UserEmail'],
                           postId: post.id,
                           likes: List<String>.from(post['Likes'] ?? []),
                           time: formatDate(post['TimeStamp']),

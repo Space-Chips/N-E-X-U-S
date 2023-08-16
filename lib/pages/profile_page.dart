@@ -17,6 +17,27 @@ class _ProfilePageState extends State<ProfilePage> {
   late String username;
   late String updatedValue; // Declare updatedValue as a class-level variable
 
+  // Define the displayMessage method
+  void displayMessage(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Message"),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("OK"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Future<void> editField(String field) async {
     var userCollection = FirebaseFirestore.instance.collection('users');
     var userQuery = userCollection.where('email', isEqualTo: currentUser.email);
@@ -48,7 +69,11 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 onChanged: (value) {
                   setState(() {
-                    updatedValue = value; // Update the updatedValue variable
+                    if (value.length > 2) {
+                      updatedValue = value; // Update the updatedValue variable
+                    } else {
+                      // pop box
+                    }
                   });
                 },
               );
@@ -63,7 +88,15 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
             TextButton(
-              onPressed: () => Navigator.of(context).pop(updatedValue),
+              onPressed: () {
+                if (updatedValue.length > 2) {
+                  // add coment
+                  Navigator.of(context).pop(updatedValue);
+                  // pop box
+                } else {
+                  // pop box
+                }
+              },
               child: Text(
                 'Save',
                 style: TextStyle(color: Colors.white),

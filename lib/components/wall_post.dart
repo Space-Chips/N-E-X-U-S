@@ -13,6 +13,7 @@ import 'like_button.dart';
 class WallPost extends StatefulWidget {
   final String message;
   final String user;
+  final String userEmail;
   final String time;
   final String postId;
   final List<String> likes;
@@ -23,6 +24,7 @@ class WallPost extends StatefulWidget {
     required this.postId,
     required this.likes,
     required this.time,
+    required this.userEmail,
   });
 
   @override
@@ -122,12 +124,17 @@ class _WallPostState extends State<WallPost> {
           // save button
           TextButton(
             onPressed: () {
-              // add coment
-              addComment(commentTextController.text);
-
-              // pop box
-              Navigator.pop(context);
-              commentTextController.clear();
+              if (commentTextController.text.isNotEmpty) {
+                // add coment
+                addComment(commentTextController.text);
+                // pop box
+                commentTextController.clear();
+                Navigator.pop(context);
+              } else {
+                // pop box
+                commentTextController.clear();
+                Navigator.pop(context);
+              }
             },
             child: Text("P O S T"),
           ),
@@ -236,7 +243,7 @@ class _WallPostState extends State<WallPost> {
                         style: TextStyle(color: Colors.grey[400]),
                       ),
                       Text(
-                        " . ",
+                        "  ",
                         style: TextStyle(color: Colors.grey[400]),
                       ),
                       Text(
@@ -334,6 +341,16 @@ class _WallPostState extends State<WallPost> {
               );
             },
           ),
+          // Display the username
+          //if (isAdminState == true)
+          //  Text(
+          //    widget.userEmail, // Display the username here
+          //   style: TextStyle(
+          //      color: Colors.grey[400],
+          //      fontSize: 16, // Set an appropriate font size
+          //      fontWeight: FontWeight.bold, // You can adjust the style
+          //    ),
+          //  ),
         ],
       ),
     );
