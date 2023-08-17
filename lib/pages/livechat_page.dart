@@ -22,9 +22,45 @@ class _HomePageState extends State<LiveChatPage> {
   // text controller
   final textController = TextEditingController();
 
+  bool isAdminState = false;
+  String usernameState = "Test";
+  String emailState = "Test";
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUserData();
+  }
+
   //sign user out
   void signOut() {
     FirebaseAuth.instance.signOut();
+  }
+
+  // Fetch user data from Firebase
+  void fetchUserData() async {
+    QuerySnapshot userSnapshot = await FirebaseFirestore.instance
+        .collection("users")
+        .where("email",
+            isEqualTo: currentUser.email) // Use the current user's email
+        .get();
+
+    if (userSnapshot.docs.isNotEmpty) {
+      // Check if any documents match the query
+      var userData = userSnapshot.docs.first.data() as Map<String, dynamic>;
+      var username = userData['username'];
+      var isAdmin = userData['admin'];
+      var email = userData['email'];
+
+      setState(() {
+        // Update isAdmin and username in the state
+        usernameState = username;
+        isAdminState = isAdmin;
+        emailState = email;
+      });
+    } else {
+      //print("User data not found");
+    }
   }
 
   // post message
@@ -33,9 +69,11 @@ class _HomePageState extends State<LiveChatPage> {
     if (textController.text.isNotEmpty) {
       // store in firebase
       FirebaseFirestore.instance.collection("Chat").add({
+        'User': usernameState,
         'UserEmail': currentUser.email,
         'Message': textController.text,
         'TimeStamp': Timestamp.now(),
+        'isAdminPost': isAdminState,
         'Likes': [],
       });
     }
@@ -62,7 +100,7 @@ class _HomePageState extends State<LiveChatPage> {
                     .collection('Chat')
                     .orderBy(
                       "TimeStamp",
-                      descending: false,
+                      descending: true,
                     )
                     .snapshots(),
                 builder: (context, snapshot) {
@@ -74,7 +112,9 @@ class _HomePageState extends State<LiveChatPage> {
                         final post = snapshot.data!.docs[index];
                         return ChatPosts(
                           message: post['Message'],
-                          user: post['UserEmail'],
+                          user: post['User'],
+                          userEmail: post['UserEmail'],
+                          isAdminPost: post['isAdminPost'],
                           postId: post.id,
                           likes: List<String>.from(post['Likes'] ?? []),
                           time: formatDate(post['TimeStamp']),
@@ -118,7 +158,7 @@ class _HomePageState extends State<LiveChatPage> {
             // loged in as
             Padding(
               padding: const EdgeInsets.only(bottom: 25),
-              child: Text("Logged in as:${currentUser.email!}"),
+              child: Text("Logged in as : ${currentUser.email!}"),
             )
           ],
         ),

@@ -77,6 +77,7 @@ class _HomePageState extends State<HomePage> {
         'UserEmail': emailState,
         'User': usernameState,
         'Message': textController.text,
+        'isAdminPost': isAdminState,
         'TimeStamp': Timestamp.now(),
         'Likes': [],
       });
@@ -118,14 +119,18 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
-        title: Text("N E X U S"),
+        title: Text(
+          "N E X U S",
+          selectionColor: Theme.of(context).colorScheme.primary,
+        ),
+        backgroundColor: Theme.of(context).colorScheme.background,
         elevation: 0,
         actions: [
           // sign out button
           IconButton(
             onPressed: signOut,
             icon: Icon(Icons.logout),
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.tertiary,
           )
         ],
       ),
@@ -162,6 +167,7 @@ class _HomePageState extends State<HomePage> {
                           message: post['Message'],
                           user: post['User'],
                           userEmail: post['UserEmail'],
+                          isAdminPost: post['isAdminPost'],
                           postId: post.id,
                           likes: List<String>.from(post['Likes'] ?? []),
                           time: formatDate(post['TimeStamp']),

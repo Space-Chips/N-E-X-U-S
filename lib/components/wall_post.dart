@@ -16,6 +16,7 @@ class WallPost extends StatefulWidget {
   final String userEmail;
   final String time;
   final String postId;
+  final bool isAdminPost;
   final List<String> likes;
   const WallPost({
     super.key,
@@ -25,6 +26,7 @@ class WallPost extends StatefulWidget {
     required this.likes,
     required this.time,
     required this.userEmail,
+    required this.isAdminPost,
   });
 
   @override
@@ -254,6 +256,17 @@ class _WallPostState extends State<WallPost> {
                         widget.time,
                         style: TextStyle(color: Colors.grey[400]),
                       ),
+
+                      // Display the Admin Badge
+                      if (widget.isAdminPost == true)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10.0),
+                          child: Icon(
+                            Icons.shield_outlined,
+                            size: 20,
+                            color: Colors.grey[400],
+                          ),
+                        )
                     ],
                   ),
                 ],
@@ -346,7 +359,7 @@ class _WallPostState extends State<WallPost> {
               );
             },
           ),
-          // Display the username
+          // Display the User Email for admins
           //if (isAdminState == true)
           //  Text(
           //    widget.userEmail, // Display the username here
