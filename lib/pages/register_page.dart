@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nexus/components/button.dart';
 import 'package:nexus/components/text_field.dart';
+import 'package:nexus/pages/email_verification_page.dart';
 
 import '../components/square_tile.dart';
 import '../services/auth_service.dart';
