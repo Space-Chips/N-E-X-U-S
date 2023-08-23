@@ -43,6 +43,7 @@ class _WallPostState extends State<WallPost> {
 
   // comment text controller
   final commentTextController = TextEditingController();
+  final reportTextController = TextEditingController();
   var commentTextcontrollerstring = "";
 
   @override
@@ -116,6 +117,21 @@ class _WallPostState extends State<WallPost> {
     });
   }
 
+  // post message
+  void postReport(String postText) {
+    // store in firebase
+    FirebaseFirestore.instance.collection("Admin_Chat").add(
+      {
+        'User': usernameState,
+        'UserEmail': currentUser.email,
+        'Message': postText,
+        'TimeStamp': Timestamp.now(),
+        'isAdminPost': isAdminState,
+        'Likes': [],
+      },
+    );
+  }
+
   // show a dialog box for adding a comment
   void showCommentDialog() {
     showDialog(
@@ -143,6 +159,49 @@ class _WallPostState extends State<WallPost> {
               }
             },
             child: Text("P O S T"),
+          ),
+
+          // cancel button
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              "C A N C E L",
+              selectionColor: Colors.blue,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  // send a report message
+  void showReportDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("R E P O R T"),
+        content: TextField(
+          controller: reportTextController,
+          decoration: InputDecoration(hintText: "Add details..."),
+        ),
+        actions: [
+          // save button
+          TextButton(
+            onPressed: () {
+              if (reportTextController.text.isNotEmpty) {
+                // add coment
+                postReport(
+                    "⚠️REPORT⚠️ $userEmail just reported a post !! It reports ${widget.userEmail}, he says that ${reportTextController.text} / the post id is ${widget.postId} ");
+                // pop box
+                reportTextController.clear();
+                Navigator.pop(context);
+              } else {
+                // pop box
+                commentTextController.clear();
+                Navigator.pop(context);
+              }
+            },
+            child: Text("S E N D"),
           ),
 
           // cancel button
@@ -266,7 +325,49 @@ class _WallPostState extends State<WallPost> {
                             size: 20,
                             color: Colors.grey[400],
                           ),
-                        )
+                        ),
+
+                      // Display the menue
+                      PopupMenuButton(
+                        icon: Icon(Icons.more_vert,
+                            color: Colors.grey[500]), // add this line
+                        itemBuilder: (_) => <PopupMenuItem<String>>[
+                          const PopupMenuItem<String>(
+                            value: 'report',
+                            child: SizedBox(
+                              width: 100,
+                              // height: 30,
+
+                              child: Text(
+                                "Report",
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            ),
+                          ),
+                          if (isAdminState == true)
+                            const PopupMenuItem<String>(
+                              value: 'delete',
+                              child: SizedBox(
+                                width: 100,
+                                // height: 30,
+                                child: Text(
+                                  "Delete",
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                              ),
+                            ),
+                        ],
+                        onSelected: (index) async {
+                          switch (index) {
+                            case 'report':
+                              showReportDialog();
+                              break;
+                            case 'delete':
+                              deletePost();
+                              break;
+                          }
+                        },
+                      ),
                     ],
                   ),
                 ],
@@ -315,10 +416,8 @@ class _WallPostState extends State<WallPost> {
               ),
               const SizedBox(width: 20),
               // delete button
-              if (isAdminState == true)
-                DeleteButton(onTap: deletePost)
-              else if (widget.user == currentUser.email)
-                DeleteButton(onTap: deletePost)
+
+              if (widget.user == usernameState) DeleteButton(onTap: deletePost)
             ],
           ),
 
@@ -352,7 +451,7 @@ class _WallPostState extends State<WallPost> {
                   return Comment(
                     text: commentData["CommentText"],
                     user: commentData["CommentedBy"],
-                    userEmail: commentData["CommentedByEmail"],
+                    usernameState: commentData["CommentedBy"],
                     time: formatDate(commentData["CommentTime"]),
                   );
                 }).toList(),

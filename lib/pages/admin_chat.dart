@@ -1,27 +1,21 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, depend_on_referenced_packages
 
-import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-// ignore: depend_on_referenced_packages
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:nexus/components/drawer.dart';
+import 'package:nexus/components/admin_chat_post.dart';
 import 'package:nexus/components/text_field.dart';
-import 'package:nexus/components/wall_post.dart';
 import 'package:nexus/helper/helper_methods.dart';
-import 'package:nexus/pages/admin_chat.dart';
-import 'package:nexus/pages/livechat_page.dart';
-import 'package:nexus/pages/profile_page.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class AdminChatPage extends StatefulWidget {
+  const AdminChatPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<AdminChatPage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<AdminChatPage> {
   // user
   final currentUser = FirebaseAuth.instance.currentUser!;
 
@@ -74,57 +68,19 @@ class _HomePageState extends State<HomePage> {
     // only post if there is something in the textfield
     if (textController.text.isNotEmpty) {
       // store in firebase
-      FirebaseFirestore.instance.collection("Posts").add({
-        'UserEmail': emailState,
-        'User': usernameState,
-        'Message': textController.text,
-        'isAdminPost': isAdminState,
-        'TimeStamp': Timestamp.now(),
-        'Likes': [],
-      });
+      FirebaseFirestore.instance.collection("Admin_Chat").add(
+        {
+          'User': usernameState,
+          'UserEmail': currentUser.email,
+          'Message': textController.text,
+          'TimeStamp': Timestamp.now(),
+          'isAdminPost': isAdminState,
+          'Likes': [],
+        },
+      );
     }
 
     textController.clear();
-  }
-
-  // navigate to profile page
-  void goToProfilePage() {
-    // pop menu drawer
-    Navigator.pop(context);
-
-    // go to profile page
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const ProfilePage(),
-      ),
-    );
-  }
-
-  void goToLiveChatPage() {
-    // pop menu drawer
-    Navigator.pop(context);
-
-    // go to profile page
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const LiveChatPage(),
-      ),
-    );
-  }
-
-  void goToAdminChatPage() {
-    // pop menu drawer
-    Navigator.pop(context);
-
-    // go to profile page
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const AdminChatPage(),
-      ),
-    );
   }
 
   @override
@@ -134,29 +90,11 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         title: Text(
-          "N E X U S",
+          "A D M I N  C H A T",
           selectionColor: Theme.of(context).colorScheme.primary,
         ),
         backgroundColor: Theme.of(context).colorScheme.background,
         elevation: 0,
-        actions: [
-          // sign out button
-          IconButton(
-            onPressed: signOut,
-            icon: Icon(Icons.logout),
-            color: Theme.of(context).colorScheme.tertiary,
-          )
-        ],
-      ),
-      drawer: MyDrawer(
-        onProfileTap: goToProfilePage,
-        onLiveChatTap: goToLiveChatPage,
-        onAdminChatTap: goToAdminChatPage,
-        onThemeTap: () {
-          AdaptiveTheme.of(context).toggleThemeMode();
-          // Wrap in a function
-        },
-        onSignOut: signOut,
       ),
       body: Center(
         child: Column(
@@ -165,7 +103,7 @@ class _HomePageState extends State<HomePage> {
             Expanded(
               child: StreamBuilder(
                 stream: FirebaseFirestore.instance
-                    .collection('Posts')
+                    .collection('Admin_Chat')
                     .orderBy(
                       "TimeStamp",
                       descending: true,
@@ -178,11 +116,10 @@ class _HomePageState extends State<HomePage> {
                       itemBuilder: (context, index) {
                         // get messages
                         final post = snapshot.data!.docs[index];
-                        return WallPost(
+                        return AdminChatPosts(
                           message: post['Message'],
                           user: post['User'],
                           userEmail: post['UserEmail'],
-                          isAdminPost: post['isAdminPost'],
                           postId: post.id,
                           likes: List<String>.from(post['Likes'] ?? []),
                           time: formatDate(post['TimeStamp']),
@@ -195,8 +132,7 @@ class _HomePageState extends State<HomePage> {
                     );
                   }
                   return const Center(
-                    child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.blue)),
+                    child: CircularProgressIndicator(),
                   );
                 },
               ),
@@ -228,7 +164,7 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.only(bottom: 25),
               child: Text("Logged in as : ${currentUser.email!}"),
-            ),
+            )
           ],
         ),
       ),

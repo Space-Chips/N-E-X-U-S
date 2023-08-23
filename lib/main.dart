@@ -3,7 +3,6 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:nexus/auth/auth.dart';
 import 'package:nexus/auth/login_or_register.dart';
 import 'package:nexus/theme/dark_theme.dart';
@@ -15,7 +14,6 @@ import 'package:page_transition/page_transition.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  MobileAds.instance.initialize();
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(

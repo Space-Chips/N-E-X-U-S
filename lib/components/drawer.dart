@@ -6,12 +6,14 @@ import 'package:nexus/components/my_list_tile.dart';
 class MyDrawer extends StatelessWidget {
   final void Function()? onProfileTap;
   final void Function()? onLiveChatTap;
+  final void Function()? onAdminChatTap;
   final void Function()? onSignOut;
   final void Function()? onThemeTap;
   const MyDrawer({
     super.key,
     required this.onProfileTap,
     required this.onLiveChatTap,
+    required this.onAdminChatTap,
     required this.onSignOut,
     required this.onThemeTap,
   });
@@ -55,6 +57,11 @@ class MyDrawer extends StatelessWidget {
                 icon: Icons.chat,
                 text: 'L I V E  C H A T',
                 onTap: onLiveChatTap,
+              ),
+              MyListTile(
+                icon: Icons.shield_rounded,
+                text: 'A D M I N  C H A T',
+                onTap: onAdminChatTap,
               ),
             ],
           ),

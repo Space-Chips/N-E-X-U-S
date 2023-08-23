@@ -4,13 +4,13 @@ class Comment extends StatelessWidget {
   final String text;
   final String user;
   final String time;
-  final String userEmail;
+  final String usernameState;
   const Comment({
     super.key,
     required this.text,
     required this.user,
     required this.time,
-    required this.userEmail,
+    required this.usernameState,
   });
 
   @override
@@ -34,7 +34,7 @@ class Comment extends StatelessWidget {
           Row(
             children: [
               Text(
-                userEmail,
+                usernameState,
                 style: TextStyle(color: Colors.grey[400]),
               ),
               Text(
