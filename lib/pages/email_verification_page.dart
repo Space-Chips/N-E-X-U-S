@@ -112,9 +112,12 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                       const SizedBox(height: 25),
 
                       // sign in button
-                      MyButton(
-                        onTap: canResendEmail ? sendVerificationEmail : null,
-                        text: 'Resend Email',
+                      Padding(
+                        padding: const EdgeInsets.only(left: 500, right: 500),
+                        child: MyButton(
+                          onTap: canResendEmail ? sendVerificationEmail : null,
+                          text: 'Resend Email',
+                        ),
                       ),
 
                       const SizedBox(height: 50),

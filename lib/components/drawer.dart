@@ -9,6 +9,7 @@ class MyDrawer extends StatelessWidget {
   final void Function()? onAdminChatTap;
   final void Function()? onSignOut;
   final void Function()? onThemeTap;
+  final bool isAdmin;
   const MyDrawer({
     super.key,
     required this.onProfileTap,
@@ -16,6 +17,7 @@ class MyDrawer extends StatelessWidget {
     required this.onAdminChatTap,
     required this.onSignOut,
     required this.onThemeTap,
+    required this.isAdmin,
   });
 
   @override
@@ -58,11 +60,12 @@ class MyDrawer extends StatelessWidget {
                 text: 'L I V E  C H A T',
                 onTap: onLiveChatTap,
               ),
-              MyListTile(
-                icon: Icons.shield_rounded,
-                text: 'A D M I N  C H A T',
-                onTap: onAdminChatTap,
-              ),
+              if (isAdmin == true)
+                MyListTile(
+                  icon: Icons.shield_rounded,
+                  text: 'A D M I N  C H A T',
+                  onTap: onAdminChatTap,
+                ),
             ],
           ),
 

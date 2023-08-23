@@ -152,6 +152,7 @@ class _HomePageState extends State<HomePage> {
         onProfileTap: goToProfilePage,
         onLiveChatTap: goToLiveChatPage,
         onAdminChatTap: goToAdminChatPage,
+        isAdmin: isAdminState,
         onThemeTap: () {
           AdaptiveTheme.of(context).toggleThemeMode();
           // Wrap in a function
