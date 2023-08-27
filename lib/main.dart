@@ -1,6 +1,5 @@
 // ignore_for_file: unused_import, depend_on_referenced_packages
 
-import 'package:admanager_web/admanager_web.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -15,7 +14,6 @@ import 'package:page_transition/page_transition.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  AdManagerWeb.init();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
