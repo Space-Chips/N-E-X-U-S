@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:nexus/components/button.dart';
 import 'package:nexus/components/text_box.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -35,6 +36,45 @@ class _ProfilePageState extends State<ProfilePage> {
           ],
         );
       },
+    );
+  }
+
+  // show an account deletition dialog
+  void showDeleteDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("DELETE YOUR ACCOUNT & DATA"),
+        actions: [
+          // "Yes" button
+          TextButton(
+            onPressed: () async {
+              // Delete the user's data from Firestore
+              final userDocs = await FirebaseFirestore.instance
+                  .collection("users")
+                  .where("email", isEqualTo: currentUser.email)
+                  .get();
+
+              for (var doc in userDocs.docs) {
+                await doc.reference.delete();
+              }
+
+              // Delete the user account from Firebase Auth
+              await currentUser.delete();
+
+              // Dismiss the dialog
+              Navigator.pop(context);
+            },
+            child: Text("Y E S"),
+          ),
+
+          // "Cancel" button
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text("C A N C E L"),
+          )
+        ],
+      ),
     );
   }
 
@@ -173,6 +213,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   sectionName: 'bio',
                   onPressed: () => editField("bio"),
                 ),
+                const SizedBox(height: 50),
+                MyButton(
+                    onTap: showDeleteDialog, text: "Delete your account data"),
 
                 //Padding(
                 //  padding: const EdgeInsets.only(left: 25.0),
