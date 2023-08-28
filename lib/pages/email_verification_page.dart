@@ -96,28 +96,22 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                       ),
 
                       //welcome back message
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 400.0,
-                          right: 400.0,
+
+                      Text(
+                        "Un email de vérification a été envoyé à votre adresse. Veuillez vérifier votre boîte de réception et cliquer sur le lien de vérification pour activer votre compte.",
+                        style: TextStyle(
+                          color: Colors.grey[600],
                         ),
-                        child: Text(
-                          "Un email de vérification a été envoyé à votre adresse. Veuillez vérifier votre boîte de réception et cliquer sur le lien de vérification pour activer votre compte.",
-                          style: TextStyle(
-                            color: Colors.grey[600],
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
+                        textAlign: TextAlign.center,
                       ),
+
                       const SizedBox(height: 25),
 
                       // sign in button
-                      Padding(
-                        padding: const EdgeInsets.only(left: 500, right: 500),
-                        child: MyButton(
-                          onTap: canResendEmail ? sendVerificationEmail : null,
-                          text: 'Resend Email',
-                        ),
+
+                      MyButton(
+                        onTap: canResendEmail ? sendVerificationEmail : null,
+                        text: 'Resend Email',
                       ),
 
                       const SizedBox(height: 50),

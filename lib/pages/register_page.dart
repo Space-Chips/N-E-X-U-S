@@ -3,11 +3,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:nexus/auth/policy_dialog.dart';
 import 'package:nexus/components/button.dart';
 import 'package:nexus/components/text_field.dart';
 import 'package:nexus/pages/email_verification_page.dart';
+import 'package:animations/animations.dart';
 
 import '../components/square_tile.dart';
 import '../services/auth_service.dart';
@@ -198,7 +201,41 @@ class _RegisterPageState extends State<RegisterPage> {
                     onTap: signUp,
                     text: 'Sign Up',
                   ),
-                  const SizedBox(height: 0),
+                  const SizedBox(height: 25),
+
+                  RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      text: "By creating an account, you are agreeing to our\n",
+                      style: TextStyle(
+                        color: Colors.grey[700],
+                      ),
+                      children: [
+                        TextSpan(
+                            text: "\n"), // Add an empty TextSpan for spacing
+                        TextSpan(
+                          text: "Terms & Conditions ",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue,
+                          ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              showModal(
+                                context: context,
+                                configuration:
+                                    FadeScaleTransitionConfiguration(),
+                                builder: (context) {
+                                  return PolicyDialog(
+                                    mdFileName: 'terms_and_conditions.md',
+                                  );
+                                },
+                              );
+                            },
+                        ),
+                      ],
+                    ),
+                  ),
 
                   const SizedBox(height: 50),
                   // or continue with
