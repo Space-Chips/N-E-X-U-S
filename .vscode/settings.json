@@ -49,5 +49,6 @@
         "votre",
         "wallpost"
     ],
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "cmake.sourceDirectory": "/Users/abdelhaknezzari/Desktop/nexusremake/linux"
 }
